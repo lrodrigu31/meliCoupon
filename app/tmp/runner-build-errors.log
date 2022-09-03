@@ -1,2 +1,0 @@
-# coupon/handlers
-handlers/couponHandlers.go:21:34: undefined: models.GetPriceList
