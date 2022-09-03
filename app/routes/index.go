@@ -9,7 +9,7 @@ func LoadRoutes() *mux2.Router {
 	mux := mux2.NewRouter()
 
 	// implementar rutas
-	mux = ListItemsRoutes(mux)
+	mux = CouponRoutes(mux)
 
 	return mux
 }
