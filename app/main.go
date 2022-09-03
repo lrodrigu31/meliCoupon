@@ -1,14 +1,13 @@
 package main
 
 import (
-	"coupon/router"
+	"coupon/routes"
 	"log"
 	"net/http"
 )
 
+//TODO : implementar variable de entorno
 func main() {
-	// cargar rutas
-	mux := router.LoadRoutes()
-	//iniciar servidor
+	mux := routes.LoadRoutes()
 	log.Fatal(http.ListenAndServe(":3000", mux))
 }
