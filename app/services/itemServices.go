@@ -16,20 +16,22 @@ func Calculate(items map[string]float64, amount float64) ([]string, float64) {
 
 	maps = make(map[string]float64)
 	//var prices []float64
-	prices := helpers.Values(items)
-	defaultMaxQuantities := prices
-	keys := helpers.Keys(items)
+	//prices := helpers.Values(items)
+	//defaultMaxQuantities := prices
+	//keys := helpers.Keys(items)
+	listItemsSelected, total := processResponse(items, amount)
 	fmt.Println("::::::::::::::")
-	responseDTO(items, amount)
+	fmt.Println(listItemsSelected)
+	fmt.Println(total)
 	fmt.Println("::::::::::::::")
 	//reducer(items, amount)
-	intermediateResult := intermediateResultTable(prices, defaultMaxQuantities, amount)
+	//intermediateResult := intermediateResultTable(prices, defaultMaxQuantities, amount)
 
 	//fmt.Println(intermediateResult)
 
-	list, total := getResponseIndex(amount, prices, keys, intermediateResult, defaultMaxQuantities)
+	//list, total := getResponseIndex(amount, prices, keys, intermediateResult, defaultMaxQuantities)
 
-	return list, total
+	return listItemsSelected, total
 }
 
 func GetPriceList(itemIds []string) (models.PriceList, float64) {
@@ -144,13 +146,13 @@ func maximizer(items map[string]float64, amount float64) ([]float64, float64) {
 	return prices, amount * factor
 }
 
-func responseDTO(items map[string]float64, amount float64) {
+func processResponse(items map[string]float64, amount float64) ([]string, float64) {
 	prices := helpers.Values(items)
-	//ids := helpers.Keys(items)
+	ids := helpers.Keys(items)
 	pos := len(prices) - 1
 	total := getTotal(pos, amount, prices)
 
-	fmt.Println(total)
+	return getSelectedItems(prices, ids, amount), total
 
 }
 
@@ -158,7 +160,7 @@ func getTotal(pos int, amount float64, prices []float64) float64 {
 	if pos < 0 || amount == 0 {
 		return 0
 	}
-	key := fmt.Sprintf("%d%v", pos, strconv.FormatFloat(amount, 'E', -1, 64))
+	key := fmt.Sprintf("%d-%v", pos, strconv.FormatFloat(amount, 'E', -1, 64))
 
 	if _, present := maps[key]; present {
 		return maps[key]
@@ -171,5 +173,30 @@ func getTotal(pos int, amount float64, prices []float64) float64 {
 		exclude := getTotal(pos-1, amount, prices)
 		maps[key] = math.Max(include, exclude)
 	}
+
 	return maps[key]
+}
+
+func getSelectedItems(prices []float64, items []string, amount float64) []string {
+	var itemList []string
+	key := fmt.Sprintf("%d-%v", len(prices)-1, strconv.FormatFloat(amount, 'E', -1, 64))
+
+	total := maps[key]
+
+	for i := len(prices) - 1; i > 0; i-- {
+
+		key := fmt.Sprintf("%d-%v", i-1, strconv.FormatFloat(amount, 'E', -1, 64))
+
+		if total != maps[key] {
+			itemList = append(itemList, items[i])
+			amount -= prices[i]
+			total -= prices[i]
+		}
+	}
+
+	if total != 0 {
+		itemList = append(itemList, items[0])
+	}
+
+	return itemList
 }
