@@ -5,7 +5,6 @@ import (
 	"coupon/models"
 	"coupon/services"
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -18,11 +17,18 @@ func GetCouponHandlers(rw http.ResponseWriter, r *http.Request) {
 	} else {
 		if data.ValidateStructure() {
 			//TODO: procesar y responder
-			//helpers.SenData(rw, data, http.StatusOK)
-			priceList, minPrice := services.GetPriceList(data.ItemIds)
-			fmt.Println(priceList)
-			services.CrearMatriz()
-			helpers.SenData(rw, minPrice, http.StatusOK)
+
+			if Output, err := services.ResponseItemServices(data); err == true {
+				helpers.SenData(rw, Output, http.StatusOK)
+			} else {
+				helpers.SendError(rw, http.StatusNotFound)
+			}
+
+			//priceList, _ := services.GetPriceList(data.ItemIds)
+			//response := services.Calculate(priceList.Items, 500)
+			//fmt.Println(priceList)
+			//services.CrearMatriz()
+			//helpers.SenData(rw, response, http.StatusOK)
 		} else {
 			helpers.SendError(rw, http.StatusUnprocessableEntity)
 		}

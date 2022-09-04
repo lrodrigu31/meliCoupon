@@ -3,66 +3,67 @@ package services
 import (
 	"fmt"
 	"math"
+	"sort"
 )
 
 func CrearMatriz() {
-	/*	peso := []int{
+	/*	prices := []int{
 			0, 4, 3, 5, 2,
 		}
-		valor := []int{
+		defaultMaxQuantities := []int{
 			0, 10, 40, 30, 20,
 		}
-		pesoMaximo := 8
+		amount := 8
 	*/
 
-	peso := []int{
+	prices := []int{
 		0, 100, 210, 260, 80, 90,
 	}
-	valor := []int{
-		0, 10, 10, 10, 10, 10,
+	defaultMaxQuantities := []int{
+		0, 1, 1, 1, 1, 1,
 	}
-	pesoMaximo := 500
+	amount := 500
 
-	filas := len(peso)
-	columnas := pesoMaximo + 1
+	rows := len(prices)
+	columns := amount + 1
 
-	var matrix [][]int
+	var intermediateResult [][]int
 
-	for i := 0; i < filas; i++ {
+	for i := 0; i < rows; i++ {
 		var vectorFila []int
-		for j := 0; j < columnas; j++ {
+		for j := 0; j < columns; j++ {
 			vectorFila = append(vectorFila, 0)
 		}
-		matrix = append(matrix, vectorFila)
+		intermediateResult = append(intermediateResult, vectorFila)
 	}
 
-	//fmt.Println("matrix", matrix)
+	//fmt.Println("intermediateResult", intermediateResult)
 
-	for i := 1; i < len(peso); i++ {
-		for j := 1; j <= pesoMaximo; j++ {
+	for i := 1; i < len(prices); i++ {
+		for j := 1; j <= amount; j++ {
 			if i == 1 {
-				if j >= peso[i] {
-					matrix[i][j] = valor[i]
+				if j >= prices[i] {
+					intermediateResult[i][j] = defaultMaxQuantities[i]
 				}
-			} else if j < peso[i] {
-				matrix[i][j] = matrix[i-1][j]
+			} else if j < prices[i] {
+				intermediateResult[i][j] = intermediateResult[i-1][j]
 			} else {
-				matrix[i][j] = int(math.Max(float64(matrix[i-1][j]), float64(valor[i]+matrix[i-1][j-peso[i]])))
+				intermediateResult[i][j] = int(math.Max(float64(intermediateResult[i-1][j]), float64(defaultMaxQuantities[i]+intermediateResult[i-1][j-prices[i]])))
 			}
 		}
 	}
 
-	//fmt.Println("matrix", matrix)
+	//fmt.Println("intermediateResult", intermediateResult)
 
-	var objeto []int
+	var responseIndex []int
 
-	j := pesoMaximo
-	for i := len(peso) - 1; i > 0; i-- {
-		if matrix[i][j] != matrix[i-1][j] && matrix[i][j] == (matrix[i-1][j-peso[i]]+valor[i]) {
-			objeto = append(objeto, i)
-			j -= peso[i]
+	j := amount
+	for i := len(prices) - 1; i > 0; i-- {
+		if intermediateResult[i][j] != intermediateResult[i-1][j] && intermediateResult[i][j] == (intermediateResult[i-1][j-prices[i]]+defaultMaxQuantities[i]) {
+			responseIndex = append(responseIndex, i)
+			j -= prices[i]
 		}
 	}
-
-	fmt.Println(objeto)
+	sort.Ints(responseIndex)
+	fmt.Println(responseIndex)
 }

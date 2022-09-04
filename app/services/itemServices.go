@@ -1,204 +1,175 @@
 package services
 
 import (
+	"coupon/helpers"
 	"coupon/models"
 	"coupon/repository"
 	"fmt"
+	"math"
+	"reflect"
+	"strconv"
 )
 
-func Calculate(items map[string]float64, amount float64) []string {
+var maps map[string]float64
 
-	for i, item := range items {
-		fmt.Println("i:", i)
-		fmt.Println("items:", item)
-	}
+func Calculate(items map[string]float64, amount float64) ([]string, float64) {
 
-	list := []string{"MLA1", "MLA2", "MLA4", "MLA5"}
-	return list
+	maps = make(map[string]float64)
+	//var prices []float64
+	prices := helpers.Values(items)
+	defaultMaxQuantities := prices
+	keys := helpers.Keys(items)
+	fmt.Println("::::::::::::::")
+	responseDTO(items, amount)
+	fmt.Println("::::::::::::::")
+	//reducer(items, amount)
+	intermediateResult := intermediateResultTable(prices, defaultMaxQuantities, amount)
+
+	//fmt.Println(intermediateResult)
+
+	list, total := getResponseIndex(amount, prices, keys, intermediateResult, defaultMaxQuantities)
+
+	return list, total
 }
 
 func GetPriceList(itemIds []string) (models.PriceList, float64) {
 	priceList := make(map[string]float64)
-	curPrice := 0.0
 	for _, itemId := range itemIds {
 		item := repository.GetItem(itemId)
 		if _, present := priceList[item.Id]; !present {
 			if item.ValidateStructure() {
-				minPrice(&curPrice, &item.Price)
 				priceList[item.Id] = item.Price
 			}
 		}
 	}
 	listMapped := models.PriceList{}
 	listMapped.Items = priceList
-	return listMapped, curPrice
+	return listMapped, MinPrice(priceList)
 }
 
-func minPrice(price *float64, priceToCompare *float64) {
-	if *price == 0.0 {
-		*price = *priceToCompare
-	} else if *price > *priceToCompare {
-		*price = *priceToCompare
-	}
-}
+func intermediateResultTable(prices []float64, defaultMaxQuantities []float64, amount float64) [][]float64 {
+	rows := len(prices)
+	columns := int(amount) + 1
 
-type Objetos struct {
-	Items []Objeto
-}
+	var intermediateResult [][]float64
+	// Tabla de ceros
 
-type Objeto struct {
-	Peso      float64
-	Beneficio int
-}
-
-type Solution struct {
-	Solutions []int
-}
-
-func Algoritmo() {
-	capacidad := 500.00         // pesoFinal de la mochila
-	objetos := []models.Objeto{ //objetos que van o no en la mochila
-		{260},
-		{210},
-		{100},
-		{90},
-		{80},
+	for i := 0; i < rows; i++ {
+		var vectorFila []float64
+		for j := 0; j < columns; j++ {
+			vectorFila = append(vectorFila, 0)
+		}
+		intermediateResult = append(intermediateResult, vectorFila)
 	}
 
-	var solution []int
-
-	for i := 0; i < len(objetos); i++ {
-		solution = append(solution, -1)
-	}
-	//fmt.Println(solutionActual)
-	pesoActual := 0.0
-
-	_, _, solucionFinal, pesoFinal := models.MochilaRec(solution, 0, objetos, solution, pesoActual, capacidad, 5)
-	fmt.Println(solucionFinal, pesoFinal)
-
-}
-
-func MochilaRec(solution []int, etapa int, objetos []Objeto, mochilaFinal []int, pesoFinal float64, beneficioFinal *int, capacidad float64) {
-	i := 0
-
-	fmt.Println(":: solution[etapa] :: ", solution[etapa])
-
-	if etapa > (len(objetos) - 1) {
-		return
-	}
-
-	for {
-		//do {
-		fmt.Println(":: i :: ", i)
-		solution[etapa] = i
-		if validarPeso(solution, etapa, objetos, capacidad) {
-			if etapa == (len(objetos) - 1) {
-				actualizarSolution(solution, objetos, mochilaFinal, pesoFinal, beneficioFinal)
+	for i := 1; i < len(prices); i++ {
+		for j := 1; j <= int(amount); j++ {
+			if i == 1 {
+				if j >= int(prices[i]) {
+					intermediateResult[i][j] = defaultMaxQuantities[i]
+				}
+			} else if j < int(prices[i]) {
+				intermediateResult[i][j] = intermediateResult[i-1][j]
 			} else {
-				MochilaRec(solution, etapa+1, objetos, mochilaFinal, pesoFinal, beneficioFinal, capacidad)
+				//indexI := defaultMaxQuantities
+				//indexJ := intermediateResult[i-1][j-int(prices[i])]
+				//index := float64(indexI) + intermediateResult[i-1][j-int(prices[i])]
+				intermediateResult[i][j] = math.Max(intermediateResult[i-1][j], defaultMaxQuantities[i]+intermediateResult[i-1][j-int(prices[i])])
 			}
 		}
-		i++
-		//} while
-		if solution[etapa] != -1 {
-			break
+	}
+
+	return intermediateResult
+}
+
+func getResponseIndex(amount float64, prices []float64, keys []string, intermediateResult [][]float64, defaultMaxQuantities []float64) ([]string, float64) {
+	var indices []int
+	var responseIndex []string
+	var total float64
+
+	j := amount
+
+	for i := len(prices) - 1; i > 0; i-- {
+		if intermediateResult[i][int(j)] != intermediateResult[i-1][int(j)] && intermediateResult[i][int(j)] == intermediateResult[i-1][int(j-prices[i])]+defaultMaxQuantities[i] {
+			indices = append(indices, i)
+			j -= prices[i]
 		}
 	}
-	solution[etapa] = -1
+
+	//sort.Ints(indices)
+
+	fmt.Println(indices)
+	fmt.Println(keys)
+	fmt.Println(prices)
+
+	for i := 0; i < len(indices); i++ {
+		j := indices[i] - 1
+		responseIndex = append(responseIndex, keys[j])
+		total = total + prices[j]
+	}
+
+	return responseIndex, total
+}
+
+func MinPrice(items map[string]float64) float64 {
+	prices := helpers.Values(items)
+	min := prices[0]
+	for _, price := range prices {
+		min = math.Min(price, min)
+	}
+	return min
+}
+
+func reducer(items map[string]float64, amount float64) ([]float64, float64) {
+	prices := helpers.Values(items)
+	min := MinPrice(items)
+	factor := math.Pow10(len(strconv.Itoa(int(min))) - 1)
+	str := strconv.Itoa(int(min))
+	fmt.Println(str, reflect.TypeOf(str))
+	fmt.Println(amount / factor)
+
+	for i := 0; i < len(prices); i++ {
+		prices[i] = prices[i] / factor
+	}
+	return prices, amount / factor
+}
+
+func maximizer(items map[string]float64, amount float64) ([]float64, float64) {
+	prices := helpers.Values(items)
+	min := MinPrice(items)
+	factor := math.Pow10(len(strconv.Itoa(int(min))) - 1)
+	for i := 0; i < len(prices); i++ {
+		prices[i] = prices[i] * factor
+	}
+	return prices, amount * factor
+}
+
+func responseDTO(items map[string]float64, amount float64) {
+	prices := helpers.Values(items)
+	//ids := helpers.Keys(items)
+	pos := len(prices) - 1
+	total := getTotal(pos, amount, prices)
+
+	fmt.Println(total)
 
 }
 
-func validarPeso(solution []int, etapa int, objeto []Objeto, capacidad float64) bool {
-
-	sum := 0.0
-	for i := 0; i < etapa; i++ {
-		if solution[i] == 1 {
-			sum += objeto[i].Peso
-		}
+func getTotal(pos int, amount float64, prices []float64) float64 {
+	if pos < 0 || amount == 0 {
+		return 0
 	}
-	return sum < capacidad
-}
+	key := fmt.Sprintf("%d%v", pos, strconv.FormatFloat(amount, 'E', -1, 64))
 
-func actualizarSolution(solution []int, objetos []Objeto, mochilaFinal []int, pesoFinal float64, beneficioFinal *int) {
-	var beneficioTotal int
-	pesoTotal := 0.0
-
-	for i := 0; i < len(objetos); i++ {
-		if solution[i] == 1 {
-		}
-		beneficioTotal += objetos[i].Beneficio
-		pesoTotal += objetos[i].Peso
-
-	}
-	if pesoTotal > pesoFinal {
-		for i := 0; i < len(objetos); i++ {
-			mochilaFinal[i] = solution[i]
-		}
-		*beneficioFinal = beneficioTotal
-		pesoFinal = pesoTotal
+	if _, present := maps[key]; present {
+		return maps[key]
 	}
 
-}
-
-func validarPeso2(solution *Solution, etapa int, objeto []Objeto, capacidad float64) bool {
-
-	sum := 0.0
-	for i := 0; i < etapa; i++ {
-		if solution.Solutions[i] == 1 {
-			sum += objeto[i].Peso
-		}
+	if prices[pos] > amount {
+		maps[key] = getTotal(pos-1, amount, prices)
+	} else {
+		include := getTotal(pos-1, amount-prices[pos], prices) + prices[pos]
+		exclude := getTotal(pos-1, amount, prices)
+		maps[key] = math.Max(include, exclude)
 	}
-	return sum < capacidad
-}
-
-func MochilaRec2(solution *Solution, etapa *int, objetos []Objeto, mochilaFinal *Solution, pesoFinal *float64, beneficioFinal *int, capacidad float64) (Solution, float64, int, Solution) {
-	i := 0
-	if *etapa > (len(objetos) - 1) {
-		return *mochilaFinal, *pesoFinal, *beneficioFinal, *solution
-	}
-
-	for {
-		//do {
-		fmt.Println("etapa", *etapa)
-		solution.Solutions[*etapa] = i
-		fmt.Println("solution[etapa]", solution.Solutions[*etapa])
-		if validarPeso2(solution, *etapa, objetos, capacidad) {
-
-			if *etapa == (len(objetos) - 1) {
-				*mochilaFinal, *pesoFinal, *beneficioFinal = actualizarSolution2(solution, objetos, mochilaFinal, pesoFinal, beneficioFinal)
-			} else {
-				nuevaEtapa := *etapa + 1
-				*mochilaFinal, *pesoFinal, *beneficioFinal, *solution = MochilaRec2(solution, &nuevaEtapa, objetos, mochilaFinal, pesoFinal, beneficioFinal, capacidad)
-			} /**/
-		}
-		i++
-		fmt.Println("solution[etapa]", solution.Solutions[*etapa])
-		//} while
-		if solution.Solutions[*etapa] != 1 {
-			break
-		}
-	}
-	solution.Solutions[*etapa] = -1
-	return *mochilaFinal, *pesoFinal, *beneficioFinal, *solution
-}
-
-func actualizarSolution2(solution *Solution, objetos []Objeto, mochilaFinal *Solution, pesoFinal *float64, beneficioFinal *int) (Solution, float64, int) {
-	var beneficioTotal int
-	pesoTotal := 0.0
-
-	for i := 0; i < len(objetos); i++ {
-		if solution.Solutions[i] == 1 {
-			beneficioTotal += objetos[i].Beneficio
-			pesoTotal += objetos[i].Peso
-		}
-	}
-	if pesoTotal > *pesoFinal {
-		for i := 0; i < len(objetos); i++ {
-			mochilaFinal.Solutions[i] = solution.Solutions[i]
-		}
-		*beneficioFinal = beneficioTotal
-		*pesoFinal = pesoTotal
-	}
-	return *mochilaFinal, *pesoFinal, *beneficioFinal
-
+	return maps[key]
 }
