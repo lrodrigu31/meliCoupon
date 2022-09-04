@@ -21,7 +21,7 @@ func GetCouponHandlers(rw http.ResponseWriter, r *http.Request) {
 			//helpers.SenData(rw, data, http.StatusOK)
 			priceList, minPrice := services.GetPriceList(data.ItemIds)
 			fmt.Println(priceList)
-			fmt.Println(minPrice)
+			services.CrearMatriz()
 			helpers.SenData(rw, minPrice, http.StatusOK)
 		} else {
 			helpers.SendError(rw, http.StatusUnprocessableEntity)
