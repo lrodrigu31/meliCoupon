@@ -26,3 +26,7 @@ func GetCouponHandlers(rw http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+func GetWellCome(rw http.ResponseWriter, r *http.Request) {
+	helpers.SenData(rw, "Bienvenido  a MeliCoupon", http.StatusOK)
+}
