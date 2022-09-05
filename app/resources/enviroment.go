@@ -33,7 +33,7 @@ func (e Env) DBUser() string {
 	return os.Getenv("MYSQL_USER")
 }
 func (e Env) DBPassword() string {
-	return os.Getenv("MYSQL_PASSWORD")
+	return os.Getenv("MYSQL_ROOT_PASSWORD")
 }
 func (e Env) DBName() string {
 	return os.Getenv("MYSQL_DATABASE")
