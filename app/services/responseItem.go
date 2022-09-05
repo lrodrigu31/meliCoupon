@@ -1,7 +1,7 @@
 package services
 
 import (
-	"coupon/models"
+	"coupon/app/models"
 )
 
 func ResponseItemServices(data models.InputData) (models.OutputData, bool) {

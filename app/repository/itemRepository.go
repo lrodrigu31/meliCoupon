@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"coupon/config"
-	"coupon/models"
+	"coupon/app/config"
+	"coupon/app/models"
 	"encoding/json"
 	"fmt"
 	"net/http"

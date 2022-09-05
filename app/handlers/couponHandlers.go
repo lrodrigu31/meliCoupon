@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"coupon/helpers"
-	"coupon/models"
-	"coupon/services"
+	"coupon/app/helpers"
+	"coupon/app/models"
+	"coupon/app/services"
 	"encoding/json"
 	"net/http"
 )

@@ -1,7 +1,7 @@
 package models
 
 import (
-	"coupon/config"
+	"coupon/app/config"
 	"github.com/go-playground/validator"
 )
 

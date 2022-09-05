@@ -1,9 +1,9 @@
 package services
 
 import (
-	"coupon/helpers"
-	"coupon/models"
-	"coupon/repository"
+	"coupon/app/helpers"
+	"coupon/app/models"
+	"coupon/app/repository"
 	"fmt"
 	"math"
 	"reflect"

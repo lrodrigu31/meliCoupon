@@ -1,7 +1,7 @@
 package main
 
 import (
-	"coupon/routes"
+	"coupon/app/routes"
 	"log"
 	"net/http"
 )

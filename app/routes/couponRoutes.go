@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"coupon/handlers"
+	"coupon/app/handlers"
 	mux2 "github.com/gorilla/mux"
 )
 

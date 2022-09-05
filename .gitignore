@@ -1,4 +1,4 @@
 .idea/
 .vscode/
-app/resources/.env
-app/tmp
+.env
+/tmp/
