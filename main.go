@@ -12,7 +12,7 @@ func main() {
 	env := resources.Env{}
 	env.Init()
 
-	fmt.Println("::::::::::", env.HostPort(), "::::::::::")
+	fmt.Println("::::::::::", env.HostPort(), ":::::::::")
 	mux := routes.LoadRoutes()
 	log.Fatal(http.ListenAndServe(env.HostName()+":"+env.HostPort(), mux))
 }
