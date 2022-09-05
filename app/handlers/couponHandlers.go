@@ -16,19 +16,11 @@ func GetCouponHandlers(rw http.ResponseWriter, r *http.Request) {
 		helpers.SendError(rw, http.StatusUnprocessableEntity)
 	} else {
 		if data.ValidateStructure() {
-			//TODO: procesar y responder
-
 			if Output, err := services.ResponseItemServices(data); err == true {
 				helpers.SenData(rw, Output, http.StatusOK)
 			} else {
 				helpers.SendError(rw, http.StatusNotFound)
 			}
-
-			//priceList, _ := services.GetPriceList(data.ItemIds)
-			//response := services.Calculate(priceList.Items, 500)
-			//fmt.Println(priceList)
-			//services.CrearMatriz()
-			//helpers.SenData(rw, response, http.StatusOK)
 		} else {
 			helpers.SendError(rw, http.StatusUnprocessableEntity)
 		}

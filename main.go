@@ -1,20 +1,18 @@
 package main
 
 import (
+	"coupon/app/resources"
 	"coupon/app/routes"
+	"fmt"
 	"log"
 	"net/http"
 )
 
-//TODO : implementar variable de entorno
 func main() {
-	/*val := []float64{100, 100, 100, 100, 100}
-	wt := []float64{100, 210, 260, 80, 90}
-	W := 500.0
-	n := len(val)
+	env := resources.Env{}
+	env.Init()
 
-	println(services.KnapSack(W, wt, val, n))*/
-
+	fmt.Println("::::::::::", env.HostPort(), "::::::::::")
 	mux := routes.LoadRoutes()
-	log.Fatal(http.ListenAndServe(":3000", mux))
+	log.Fatal(http.ListenAndServe(env.HostName()+":"+env.HostPort(), mux))
 }

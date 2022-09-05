@@ -3,6 +3,7 @@ package repository
 import (
 	"coupon/app/config"
 	"coupon/app/models"
+	"coupon/app/resources"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -13,10 +14,13 @@ func GetItem(itemMeliId string) models.Item {
 	return itemResponse
 }
 
-//getApiItem : MELI REST API implementation TODO: implementar variable de entorno
+//getApiItem : MELI REST API implementation
 func getApiItem(itemMeliId string) models.Item {
+	env := resources.Env{}
+	env.Init()
+
 	itemResponse := models.Item{}
-	if response, err := http.Get("https://api.mercadolibre.com/items/" + itemMeliId); err != nil {
+	if response, err := http.Get(env.MeliAPIRest() + itemMeliId); err != nil {
 		fmt.Println(err.Error())
 	} else {
 		decoder := json.NewDecoder(response.Body)

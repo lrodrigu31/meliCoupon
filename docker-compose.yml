@@ -1,0 +1,19 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+
+version: '3'
+
+# Define services
+services:
+
+  # App Service
+  app:
+    container_name: app_meli_api
+    # Configuration for building the docker image for the service
+    build:
+      context: . # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: always
+    # Pass environment variables to the service
+    env_file: .env
