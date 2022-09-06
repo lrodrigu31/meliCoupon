@@ -41,8 +41,8 @@ func (e Env) DBPassword() string {
 func (e Env) DBName() string {
 	return os.Getenv("MYSQL_DATABASE")
 }
-func (e Env) DBCharset() string {
-	return os.Getenv("MYSQL_CHARSET")
+func (e Env) DBSSLmode() string {
+	return os.Getenv("MYSQL_SSLMODE")
 }
 
 func (e Env) MeliAPIRest() string {
