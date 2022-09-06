@@ -1,5 +1,3 @@
-
-
 # Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
 # Start from olang:1.19.0-alpine3.15 base image

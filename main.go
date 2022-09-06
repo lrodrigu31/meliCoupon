@@ -3,16 +3,22 @@ package main
 import (
 	"coupon/app/resources"
 	"coupon/app/routes"
-	"fmt"
 	"log"
 	"net/http"
+	"time"
 )
 
 func main() {
 	env := resources.Env{}
 	env.Init()
-
-	fmt.Println("::::::::::", env.HostName(), ":", env.HostPort(), ":::::::::")
 	mux := routes.LoadRoutes()
-	log.Fatal(http.ListenAndServe(env.HostName()+":"+env.HostPort(), mux))
+
+	srv := &http.Server{
+		Handler:      mux,
+		Addr:         ":" + env.HostPort(),
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+	}
+
+	log.Fatal(srv.ListenAndServe())
 }

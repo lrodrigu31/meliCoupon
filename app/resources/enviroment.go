@@ -22,6 +22,9 @@ func (e Env) HostPort() string {
 func (e Env) HostName() string {
 	return os.Getenv("SERVER_HOST")
 }
+func (e Env) HostProtocol() string {
+	return os.Getenv("SERVER_PROTOCOL")
+}
 
 func (e Env) DBPort() string {
 	return os.Getenv("DB_PORT")
