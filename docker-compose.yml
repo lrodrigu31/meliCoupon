@@ -18,3 +18,10 @@ services:
     # Pass environment variables to the service
     env_file: .env
 
+  # Redis Service
+  redis:
+    image: "redis:alpine" # Use a public Redis image to build the redis service
+    restart: always
+    ports:
+      - "6379:6379"
+
