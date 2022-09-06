@@ -1,4 +1,4 @@
-package services
+package failures
 
 import (
 	"fmt"
@@ -6,16 +6,8 @@ import (
 	"sort"
 )
 
+// CrearMatriz second intent
 func CrearMatriz() {
-	/*	prices := []int{
-			0, 4, 3, 5, 2,
-		}
-		defaultMaxQuantities := []int{
-			0, 10, 40, 30, 20,
-		}
-		amount := 8
-	*/
-
 	prices := []int{
 		0, 100, 210, 260, 80, 90,
 	}

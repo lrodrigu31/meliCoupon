@@ -1,22 +1,25 @@
-package repository
+package resources
 
 import (
 	"coupon/app/config"
 	"coupon/app/models"
-	"coupon/app/resources"
 	"encoding/json"
 	"fmt"
 	"net/http"
 )
 
-func GetItem(itemMeliId string) models.Item {
+type ItemRepository struct {
+}
+
+// getItem : func used to get item  from key specific, implementing getDatabaseItem func
+func (item ItemRepository) getItem(itemMeliId string) models.Item {
 	itemResponse := getDatabaseItem(itemMeliId)
 	return itemResponse
 }
 
 //getApiItem : MELI REST API implementation
 func getApiItem(itemMeliId string) models.Item {
-	env := resources.Env{}
+	env := config.Env{}
 	env.Init()
 
 	itemResponse := models.Item{}
@@ -31,22 +34,34 @@ func getApiItem(itemMeliId string) models.Item {
 	return itemResponse
 }
 
+//getDatabaseItem : this func get the item from database or from getApiItem if not exist in this
 func getDatabaseItem(itemMeliId string) models.Item {
 	itemResponse := models.Item{}
 	localItem := models.LocalItem{}
+
+	// create the item structure the first time implemented
 	localItem.MigrateStrut()
+
+	// search an item in database
 	if err := config.Database.First(&localItem, "item_id = ?", itemMeliId); err.Error != nil {
+		//as the item is not exist in the database, is get from Api
 		itemResponse = getApiItem(itemMeliId)
+		//validate response from API
 		if itemResponse.ValidateStructure() {
+			//register in database the item found from API
 			localItem.ItemId = itemResponse.Id
 			localItem.Price = itemResponse.Price
 			config.Database.Save(&localItem)
 		} else {
+			//as the item is not get from Api, the func return an object empty
 			itemResponse = models.Item{}
 		}
 	} else {
+		//assign the results found from database
 		itemResponse.Id = localItem.ItemId
 		itemResponse.Price = localItem.Price
 	}
+
+	//return found item
 	return itemResponse
 }

@@ -4,14 +4,19 @@ import (
 	"coupon/app/models"
 )
 
-func ResponseItemServices(data models.InputData) (models.OutputData, bool) {
-	priceList, minValue := GetPriceList(data.ItemIds)
+//ResponseServices : is the struct for services response
+type ResponseServices struct {
+}
+
+// responseItemServices : is the public method for services response
+func (response ResponseServices) responseItemServices(data models.InputData) (models.OutputData, bool) {
+	itemService := ItemService{}
+	priceList, minValue := itemService.GetPriceList(data.ItemIds)
 	if minValue > data.Amount {
 		return models.OutputData{}, false
 	}
 	Output := models.OutputData{}
-	Output.ItemIds, Output.Total = Calculate(priceList.Items, data.Amount)
+	Output.ItemIds, Output.Total = itemService.processResponse(priceList.Items, data.Amount)
 
 	return Output, true
-
 }

@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// SenData : func used to send success response to services
 func SenData(rw http.ResponseWriter, data interface{}, status int) {
 	rw.Header().Set("Content-Type", "application/json")
 	rw.WriteHeader(status)
@@ -14,7 +15,9 @@ func SenData(rw http.ResponseWriter, data interface{}, status int) {
 	fmt.Fprintln(rw, string(output))
 }
 
-func SendError(rw http.ResponseWriter, status int) {
+// SendError func used to send error response to services
+func SendError(rw http.ResponseWriter, status int, message string) {
 	rw.WriteHeader(status)
-	fmt.Fprintln(rw, "Resource not found")
+	output, _ := json.Marshal(&message)
+	fmt.Fprintln(rw, output)
 }
