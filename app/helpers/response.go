@@ -18,6 +18,5 @@ func SenData(rw http.ResponseWriter, data interface{}, status int) {
 // SendError func used to send error response to services
 func SendError(rw http.ResponseWriter, status int, message string) {
 	rw.WriteHeader(status)
-	output, _ := json.Marshal(&message)
-	fmt.Fprintln(rw, output)
+	fmt.Fprintln(rw, message)
 }

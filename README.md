@@ -18,13 +18,12 @@ Project is created with:
 * playground v9.31.0
 * gorilla mux v1.8.0
 * godotenv v1.4.0
-* redis v3.6.4
-* driver postgres v1.3.9
-* gorm v1.23.8
+* go-cache v2.1.0
 * golang:1.19.0
 * Docker
 * docker-compose
 * Swagger Open Api 3.0.0
+* Heroku
 
 ## API documentation
 Swagger documentation: 

@@ -23,9 +23,8 @@ func GetValue(key string) (models.Item, bool) {
 	return item, found
 }
 
-func SetValue(key string, value float64) models.Item {
+func SetValue(key string, value float64) {
 	CacheStorage.Set(key, value, cache.DefaultExpiration)
-	return models.Item{Id: key, Price: value}
 }
 
 func (l LocaCache) NewCacheStorage(defaultExpiration int, cleanupInterval int) {
