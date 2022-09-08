@@ -51,6 +51,15 @@ func (e Env) DBSSLmode() string {
 	return os.Getenv("MYSQL_SSLMODE")
 }
 
+// Methods to load cache environment variables
+
+func (e Env) CACHEExpiration() string {
+	return os.Getenv("DEFAULT_EXPIRATION")
+}
+func (e Env) CACHEClean() string {
+	return os.Getenv("CLEANUP_INTERVAL")
+}
+
 //Methods to load another environment variables
 
 func (e Env) MeliAPIRest() string {

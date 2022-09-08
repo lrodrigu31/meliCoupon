@@ -4,6 +4,7 @@
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Documentation](#documentation)
+* [References](#references)
 * [Setup](#setup)
 
 ## General info
@@ -28,9 +29,19 @@ Project is created with:
 ## API documentation
 https://app.swaggerhub.com/apis-docs/LUISRODRIGUEZ031/coupon/1.0.0
 
+## References
+* https://www.youtube.com/watch?v=vdVpRjO7g84&t=181s&ab_channel=UCAMUniversidadCat%C3%B3licadeMurcia
+* https://www.youtube.com/watch?v=dHca8GaINXM&ab_channel=OCILabs
+* https://www.youtube.com/watch?v=EH6h7WA7sDw&ab_channel=Mindez
+* https://www.youtube.com/watch?v=Gd3Zy9fb0hU&ab_channel=Matem%C3%A1ticasParaNi%C3%B1osGeniales
+* https://www.youtube.com/watch?v=W_KoJmM3f2Q&ab_channel=CamilaVertiz
+* https://github.com/FabianNorbertoEscobar/Grafos
+* https://github.com/mattschofield/go-knapsack/blob/aaf424030800/knapsack.go
+* https://parzibyte.me/blog/2018/11/01/golang-algoritmo-busqueda-binaria/
+* https://pkg.go.dev/github.com/mattschofield/go-knapsack#Knapsack
+
 ## Setup
 How to run this project?
-
 1. [Install Docker Compose](https://docs.docker.com/compose/install/)
 2. Clone this repository
 3. Create an .env file from .env.example changing the values ​​based on your environment

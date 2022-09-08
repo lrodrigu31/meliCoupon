@@ -2,15 +2,13 @@ package main
 
 import (
 	"coupon/app/config"
+	"coupon/app/resources"
 	"coupon/app/routes"
-	"fmt"
-	"gopkg.in/redis.v3"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
-
-//var ctx = context.Background()
 
 func main() {
 	env := config.Env{}
@@ -20,22 +18,15 @@ func main() {
 	srv := &http.Server{
 		Handler:      mux,
 		Addr:         ":" + env.HostPort(),
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
+		ReadTimeout:  120 * time.Second,
+		WriteTimeout: 120 * time.Second,
 	}
-
-	//TODO :: servidor redis
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     "redis:6379",
-		Password: "", // no password set
-		//DB:       0,  // use default DB
-	})
-
-	pong, err := rdb.Ping().Result()
-	if err != nil {
-		panic(err)
+	//TODO :: Caché
+	if defaultExpiration, err := strconv.Atoi(env.CACHEExpiration()); err == nil {
+		if cleanupInterval, err := strconv.Atoi(env.CACHEClean()); err == nil {
+			resources.LocaCache{}.NewCacheStorage(defaultExpiration, cleanupInterval)
+		}
 	}
-	fmt.Println(pong, err)
 
 	log.Fatal(srv.ListenAndServe())
 }

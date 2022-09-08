@@ -1,7 +1,6 @@
 package models
 
 import (
-	"coupon/app/config"
 	"github.com/go-playground/validator"
 )
 
@@ -9,18 +8,6 @@ import (
 type Item struct {
 	Id    string  `json:"id" validate:"required"`
 	Price float64 `json:"price" validate:"required"`
-}
-
-// LocalItem : defines struct for registers from database
-type LocalItem struct {
-	Id     int64   `json:"id"`
-	ItemId string  `json:"item_id" validate:"required"`
-	Price  float64 `json:"price" validate:"required"`
-}
-
-//MigrateStrut this is implement func for to migrate struct LocalItem
-func (localItem LocalItem) MigrateStrut() {
-	config.MigrateStrut(localItem)
 }
 
 // ValidateStructure : validates that the InputData contains the required fields

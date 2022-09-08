@@ -1,0 +1,69 @@
+{
+	"id": "93859c8c-2804-a0ed-6526-46b0534163d1",
+	"name": "meliCoupon",
+	"description": "Mercado Libre is implementing a new benefit for users who most use the platform with a free coupon of a certain amount that will allow them to buy as many items marked as favorites that do not exceed the total amount.\n\nTo solve this challenge, it was necessary to implement a REST API based on the backpack algorithm and using recursive functions, it returns the list of products that can be purchased and the total amount of these products.",
+	"order": [
+		"1d195a45-85dc-8d6e-57cc-d1cc99b0ba8a",
+		"70fd8fe8-7127-6124-d303-f64b347d799a"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1662608658379,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "1d195a45-85dc-8d6e-57cc-d1cc99b0ba8a",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost:3000/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1662623812295,
+			"name": "Get List Items",
+			"description": "",
+			"collectionId": "93859c8c-2804-a0ed-6526-46b0534163d1",
+			"responses": []
+		},
+		{
+			"id": "70fd8fe8-7127-6124-d303-f64b347d799a",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:3000/coupon",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "93859c8c-2804-a0ed-6526-46b0534163d1",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Get List Items",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1662623758697,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "\n{\n\"item_ids\": [\n\"MCO865306908\",\n\"MCO869692087\",\n\"MCO516264975\",\n\"MCO468600670\",\n\"MCO451957965\"\n\t],\n\"amount\": 500000\n}"
+		}
+	]
+}
