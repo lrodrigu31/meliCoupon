@@ -21,7 +21,7 @@ func (e Env) Init() {
 //Methods to load app server environment variables
 
 func (e Env) HostPort() string {
-	return os.Getenv("SERVER_PORT")
+	return os.Getenv("PORT")
 }
 func (e Env) HostName() string {
 	return os.Getenv("SERVER_HOST")
