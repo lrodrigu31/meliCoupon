@@ -1,8 +1,10 @@
-package resources
+package repositories
 
-import "coupon/app/models"
+import (
+	"coupon/app/models"
+)
 
-//ItemFromRepository : is the interface from ItemRepository
+//ItemFromRepository : is the interface from ItemRepositoryImpl
 type ItemFromRepository interface {
 	getItem(string) models.Item
 }

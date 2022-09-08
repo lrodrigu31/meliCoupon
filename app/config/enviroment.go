@@ -11,11 +11,14 @@ type Env struct {
 }
 
 // Init : func used to init and load the environment variables
-func (e Env) Init() {
+func (e Env) Init() error {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
+	} else {
+		return nil
 	}
+	return err
 }
 
 //Methods to load app server environment variables

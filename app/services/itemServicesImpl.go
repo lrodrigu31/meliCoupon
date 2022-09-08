@@ -2,7 +2,7 @@ package services
 
 import (
 	"coupon/app/helpers"
-	"coupon/app/resources"
+	"coupon/app/repositories"
 	"fmt"
 	"math"
 	"strconv"
@@ -63,7 +63,7 @@ func (itemService ItemService) processResponse(items map[string]float64, amount 
 func (itemService ItemService) getPriceList(itemIds []string) (PriceList, float64) {
 	priceList := make(map[string]float64)
 	for _, itemId := range itemIds {
-		item := resources.GetItem(itemId)
+		item := repositories.GetItem(itemId)
 		if _, present := priceList[item.Id]; !present {
 			if item.ValidateStructure() {
 				priceList[item.Id] = item.Price
