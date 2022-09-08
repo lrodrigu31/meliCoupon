@@ -29,7 +29,7 @@ func GetCouponHandlers(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// GetWellCome is a handler that return the message "Bienvenido  a MeliCoupon"
-func GetWellCome(rw http.ResponseWriter, r *http.Request) {
+// GetWelcome is a handler that return the message "Bienvenido  a MeliCoupon"
+func GetWelcome(rw http.ResponseWriter, r *http.Request) {
 	helpers.SenData(rw, "Bienvenido  a MeliCoupon", http.StatusOK)
 }

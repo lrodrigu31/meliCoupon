@@ -2,7 +2,7 @@ package main
 
 import (
 	"coupon/app/config"
-	"coupon/app/resources"
+	"coupon/app/repositories"
 	"coupon/app/routes"
 	"log"
 	"net/http"
@@ -13,7 +13,8 @@ import (
 func main() {
 	env := config.Env{}
 	env.Init()
-	//TODO :: servidor principal
+
+	//main server
 	mux := routes.Routes{}.GetRoutes()
 	srv := &http.Server{
 		Handler:      mux,
@@ -21,10 +22,10 @@ func main() {
 		ReadTimeout:  120 * time.Second,
 		WriteTimeout: 120 * time.Second,
 	}
-	//TODO :: Caché
+	// initialization Caché
 	if defaultExpiration, err := strconv.Atoi(env.CACHEExpiration()); err == nil {
 		if cleanupInterval, err := strconv.Atoi(env.CACHEClean()); err == nil {
-			resources.LocaCache{}.NewCacheStorage(defaultExpiration, cleanupInterval)
+			repositories.LocaCache{}.NewCacheStorage(defaultExpiration, cleanupInterval)
 		}
 	}
 
