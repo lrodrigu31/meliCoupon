@@ -27,7 +27,12 @@ Project is created with:
 * Swagger Open Api 3.0.0
 
 ## API documentation
-https://app.swaggerhub.com/apis-docs/LUISRODRIGUEZ031/coupon/1.0.0
+Swagger documentation: 
+* https://app.swaggerhub.com/apis-docs/LUISRODRIGUEZ031/coupon/1.0.0
+
+Postman Documentation:
+
+* [`postman json`](meliCoupon.postman_collection.json)
 
 ## References
 * https://www.youtube.com/watch?v=vdVpRjO7g84&t=181s&ab_channel=UCAMUniversidadCat%C3%B3licadeMurcia
