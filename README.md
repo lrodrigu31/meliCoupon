@@ -33,6 +33,17 @@ Postman Documentation:
 
 * [`postman json`](meliCoupon.postman_collection.json)
 
+## Production environment
+* Url: https://mysterious-ocean-97191.herokuapp.com/
+
+## Setup
+How to run this project?
+1. [Install Docker Compose](https://docs.docker.com/compose/install/)
+2. Clone this repository
+3. Create an .env file from .env.example changing the values ​​based on your environment
+4. Run all containers with `docker-compose up`
+
+
 ## References
 * https://www.youtube.com/watch?v=vdVpRjO7g84&t=181s&ab_channel=UCAMUniversidadCat%C3%B3licadeMurcia
 * https://www.youtube.com/watch?v=dHca8GaINXM&ab_channel=OCILabs
@@ -43,10 +54,3 @@ Postman Documentation:
 * https://github.com/mattschofield/go-knapsack/blob/aaf424030800/knapsack.go
 * https://parzibyte.me/blog/2018/11/01/golang-algoritmo-busqueda-binaria/
 * https://pkg.go.dev/github.com/mattschofield/go-knapsack#Knapsack
-
-## Setup
-How to run this project?
-1. [Install Docker Compose](https://docs.docker.com/compose/install/)
-2. Clone this repository
-3. Create an .env file from .env.example changing the values ​​based on your environment
-4. Run all containers with `docker-compose up`
