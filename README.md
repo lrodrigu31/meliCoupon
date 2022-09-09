@@ -27,22 +27,33 @@ Project is created with:
 
 ## API documentation
 Swagger documentation: 
-* https://app.swaggerhub.com/apis-docs/LUISRODRIGUEZ031/coupon/1.0.0
+* http://localhost:3000/swagger/index.html
 
 Postman Documentation:
 
-* [`postman json`](meliCoupon.postman_collection.json)
+* [`postman collection`](meliCoupon.postman_collection.json)
+
+## Running locally
+`go run main.go`
 
 ## Production environment
 * Url: https://mysterious-ocean-97191.herokuapp.com/
 
-## Setup
-How to run this project?
+## Docker image
 1. [Install Docker Compose](https://docs.docker.com/compose/install/)
 2. Clone this repository
 3. Create an .env file from .env.example changing the values ​​based on your environment
 4. Run all containers with `docker-compose up`
 
+## Deploying on Heroku Server
+_Need to install Heroku CLI and get the credentials**_
+1. Login on Heroku through CLI. Run `heroku login`
+2. After logging in, run `heroku container:login`
+3. create a new container for this app. Run `heroku create`
+4. Save the container's name
+5. To push your docker image, run `heroku container:push web -a [your_container_name]`
+6. To release the docker image, run `heroku container:release web -a [your_container_name]`
+7. and that's it. The app is running on the server now!
 
 ## References
 * https://www.youtube.com/watch?v=vdVpRjO7g84&t=181s&ab_channel=UCAMUniversidadCat%C3%B3licadeMurcia

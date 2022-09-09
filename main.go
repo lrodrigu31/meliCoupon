@@ -4,11 +4,26 @@ import (
 	"coupon/app/config"
 	"coupon/app/repositories"
 	"coupon/app/routes"
+	_ "coupon/docs"
 	"log"
 	"net/http"
 	"strconv"
 	"time"
 )
+
+// @title           Mercadolibre coupon API
+// @version         1.0
+// @description     Returns items that client can buy with a coupon.
+
+// @contact.name   Luis Fernando Rodriguez Llanos
+// @contact.url    https://www.linkedin.com/in/lrodriguez031/
+// @contact.email  luisrodriguez031@gmail.com
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:3000
+// @BasePath  /coupon/
 
 func main() {
 	env := config.Env{}

@@ -8,7 +8,16 @@ import (
 	"net/http"
 )
 
-// GetCouponHandlers : coupon api request handler, this get the list of items that maximizes the total to spend without exceeding it.
+// GetCouponHandlers godoc
+//@Consume json
+//@Produce json
+//@Param request body models.InputData true "Request body example"
+//@Summary Returns a list of items from user's fav item list that can buy with a coupon
+//@Description This API returns a list of items that user can buy given the user's fav item list and a coupon.
+//@Description The total of item list cannot exceed the amount of the coupon
+//@Success 200 {object} models.OutputData
+//failure 404 {string} "Resource not found"
+//@Router / [post]
 func GetCouponHandlers(rw http.ResponseWriter, r *http.Request) {
 	data := models.InputData{}
 
