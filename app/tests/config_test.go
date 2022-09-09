@@ -1,13 +1,18 @@
-package config_test
+package testunitario_test
 
 import (
 	"coupon/app/config"
+	"fmt"
+	"github.com/joho/godotenv"
 	"net/url"
 	"strconv"
 	"testing"
 )
 
 func TestEnv_Init(t *testing.T) {
+
+	err := godotenv.Load()
+	fmt.Println(err)
 	env := config.Env{}
 	if err := env.Init(); err != nil {
 		t.Errorf("Error al cargar las variables de entorno")
@@ -54,5 +59,9 @@ func TestEnv_MeliAPIRest(t *testing.T) {
 	} else {
 		t.Errorf("la variable Api Rest esta cargando un valor con el formato incorrecto")
 	}
+
+}
+
+func TestGetCache(t *testing.T) {
 
 }
