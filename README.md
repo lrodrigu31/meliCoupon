@@ -27,11 +27,11 @@ Project is created with:
 
 ## API documentation
 Swagger documentation: 
-* https://app.swaggerhub.com/apis-docs/LUISRODRIGUEZ031/coupon/1.0.0
+* http://localhost:3000/swagger/index.html
 
 Postman Documentation:
 
-* [`postman json`](meliCoupon.postman_collection.json)
+* [`postman collection`](meliCoupon.postman_collection.json)
 
 ## Production environment
 * Url: https://mysterious-ocean-97191.herokuapp.com/

@@ -1,0 +1,72 @@
+basePath: /coupon/
+definitions:
+  models.InputData:
+    description: User's request with the favorite list of items and the coupon total.
+    properties:
+      amount:
+        example: 500000
+        type: number
+      item_ids:
+        example:
+        - MCO516264975
+        - MCO468600670
+        - MCO451957965
+        - MCO612637712
+        - MCO869692087
+        items:
+          type: string
+        type: array
+    required:
+    - amount
+    - item_ids
+    type: object
+  models.OutputData:
+    description: Response with the list of items that the user can buy and the total
+      expended on those items.
+    properties:
+      item_ids:
+        example:
+        - MCO451957965
+        - MCO468600670
+        items:
+          type: string
+        type: array
+      total:
+        example: 470000
+        type: number
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: luisrodriguez031@gmail.com
+    name: Luis Fernando Rodriguez Llanos
+    url: https://www.linkedin.com/in/lrodriguez031/
+  description: Returns items that client can buy with a coupon.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Mercadolibre coupon API
+  version: "1.0"
+paths:
+  /:
+    post:
+      description: |-
+        This API returns a list of items that user can buy given the user's fav item list and a coupon.
+        The total of item list cannot exceed the amount of the coupon
+      parameters:
+      - description: Request body example
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.InputData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OutputData'
+      summary: Returns a list of items from user's fav item list that can buy with
+        a coupon
+swagger: "2.0"
