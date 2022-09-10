@@ -27,7 +27,7 @@ Project is created with:
 
 ## API documentation
 Swagger documentation: 
-* http://localhost:3000/swagger/index.html
+* https://mysterious-ocean-97191.herokuapp.com/swagger/index.html
 
 Postman Documentation:
 

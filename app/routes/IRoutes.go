@@ -22,5 +22,5 @@ func getRoutes() *mux2.Router {
 	mux := mux2.NewRouter()
 	mux = couponRoutes{}.routes(mux)
 	mux = rootRoutes{}.routes(mux)
-	return mux
+	return mux.StrictSlash(false)
 }

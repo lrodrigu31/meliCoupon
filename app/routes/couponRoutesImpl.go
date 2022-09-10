@@ -14,6 +14,7 @@ func (c couponRoutes) routes(mux *mux2.Router) *mux2.Router {
 
 	var h = handlers.Handlers{}
 	// endPoints
+	mux.HandleFunc("/coupon", h.GetCouponHandlers).Methods(http.MethodPost)
 	mux.HandleFunc("/coupon/", h.GetCouponHandlers).Methods(http.MethodPost)
 
 	return mux
