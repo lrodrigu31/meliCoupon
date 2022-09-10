@@ -16,7 +16,7 @@ func (response ResponseServices) responseItemServices(data models.InputData) (mo
 		return models.OutputData{}, false
 	}
 	Output := models.OutputData{}
-	Output.ItemIds, Output.Total = itemService.processResponse(priceList.Items, data.Amount)
+	Output.ItemIds, Output.Total = itemService.ProcessResponse(priceList.Items, data.Amount)
 
 	return Output, true
 }

@@ -101,6 +101,9 @@ func getFinalTotal(pos int, amount float64, prices []float64) float64 {
 //minPrice : this func return the min value in array
 func minPrice(items map[string]float64) float64 {
 	prices := helpers.Values(items)
+	if len(prices) < 1 {
+		return 0
+	}
 	min := prices[0]
 	for _, price := range prices {
 		min = math.Min(price, min)

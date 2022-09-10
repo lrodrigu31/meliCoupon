@@ -8,6 +8,9 @@ import (
 	"net/http"
 )
 
+type Handlers struct {
+}
+
 // GetCouponHandlers godoc
 //@Consume json
 //@Produce json
@@ -18,27 +21,23 @@ import (
 //@Success 200 {object} models.OutputData
 //failure 404 {string} "Resource not found"
 //@Router / [post]
-func GetCouponHandlers(rw http.ResponseWriter, r *http.Request) {
+func (h Handlers) getCouponHandlers(rw http.ResponseWriter, r *http.Request) {
 	data := models.InputData{}
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&data); err != nil {
 		helpers.SendError(rw, http.StatusUnprocessableEntity, "the body struct invalid")
 	} else {
-		if data.ValidateStructure() {
-			response := services.ResponseServices{}
-			if Output, err := response.ResponseItemServices(data); err == true {
-				helpers.SenData(rw, Output, http.StatusOK)
-			} else {
-				helpers.SendError(rw, http.StatusNotFound, "Resource not found")
-			}
+		response := services.ResponseServices{}
+		if Output, err := response.ResponseItemServices(data); err == true {
+			helpers.SenData(rw, Output, http.StatusOK)
 		} else {
-			helpers.SendError(rw, http.StatusUnprocessableEntity, "the body struct invalid")
+			helpers.SendError(rw, http.StatusNotFound, "Resource not found")
 		}
 	}
 }
 
-// GetWelcome is a handler that return the message "Bienvenido  a MeliCoupon"
-func GetWelcome(rw http.ResponseWriter, r *http.Request) {
-	helpers.SenData(rw, "Bienvenido  a MeliCoupon", http.StatusOK)
+// GetWelcome is a handler that return the message "Bienvenido a MeliCoupon"
+func (h Handlers) getWelcome(rw http.ResponseWriter, r *http.Request) {
+	helpers.SenData(rw, "Bienvenido a MeliCoupon", http.StatusOK)
 }

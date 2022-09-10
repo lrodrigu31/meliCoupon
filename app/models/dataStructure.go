@@ -1,7 +1,5 @@
 package models
 
-import "github.com/go-playground/validator"
-
 // InputData : structure to model the arguments received from the API godoc
 //@Description User's request with the favorite list of items and the coupon total.
 type InputData struct {
@@ -14,14 +12,4 @@ type InputData struct {
 type OutputData struct {
 	ItemIds []string `json:"item_ids" example:"MCO451957965,MCO468600670"`
 	Total   float64  `json:"total" example:"470000"`
-}
-
-// ValidateStructure : validates that the InputData contains the required fields
-func (data InputData) ValidateStructure() bool {
-	validate := validator.New()
-	if err := validate.Struct(data); err != nil {
-		return false
-	} else {
-		return true
-	}
 }

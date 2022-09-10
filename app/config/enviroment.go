@@ -26,12 +26,6 @@ func (e Env) Init() error {
 func (e Env) HostPort() string {
 	return os.Getenv("PORT")
 }
-func (e Env) HostName() string {
-	return os.Getenv("SERVER_HOST")
-}
-func (e Env) HostProtocol() string {
-	return os.Getenv("SERVER_PROTOCOL")
-}
 
 // Methods to load cache environment variables
 

@@ -1,4 +1,4 @@
-package testunitario_test
+package test
 
 import (
 	"coupon/app/config"
@@ -59,9 +59,5 @@ func TestEnv_MeliAPIRest(t *testing.T) {
 	} else {
 		t.Errorf("la variable Api Rest esta cargando un valor con el formato incorrecto")
 	}
-
-}
-
-func TestGetCache(t *testing.T) {
 
 }

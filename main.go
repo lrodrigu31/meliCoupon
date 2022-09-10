@@ -30,7 +30,7 @@ func main() {
 	env.Init()
 
 	//main server
-	mux := routes.Routes{}.GetRoutes()
+	mux := routes.Routes{}.GetRoutes().StrictSlash(false)
 	srv := &http.Server{
 		Handler:      mux,
 		Addr:         ":" + env.HostPort(),
